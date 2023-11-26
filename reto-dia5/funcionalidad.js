@@ -1,37 +1,57 @@
-document.getElementById('search-form').addEventListener('submit', function(event) {
+document.getElementById('pokemonForm').addEventListener('submit', function (event) {
     event.preventDefault();
-    const name = document.getElementById('name').value;
-    fetchPokemon(name);
+
+    const pokemonName = document.getElementById('pokemonName').value;
+    getPokemonData(pokemonName);
 });
 
-let fetchPokemon = (name) => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
-    fetch(url)
+let getPokemonData = (pokemonName) => {
+    // Hacer una solicitud a la API de Pokemon
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
         .then(response => response.json())
-        .then(data => displayPokemon(data))
-        .catch(error => console.error('Error:', error));
+        .then(data => {
+            // Mostrar la información del Pokémon en la página
+            displayPokemonInfo(data);
+        })
+        .catch(error => {
+            console.error('Error al obtener datos del Pokémon:', error);
+        });
 }
 
-let displayPokemon = (data) => {
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `
-        <h2>${data.name}</h2>
-        <img src="${data.sprites.front_default}" alt="${data.name}">
-        <table>
-            <thead>
-                <tr>
-                    <th>Habilidad</th>
-                    <th>Nivel</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${data.abilities.map(ability => `
-                    <tr>
-                        <td>${ability.ability.name}</td>
-                        <td>${ability.ability.name === data.name ? '*' : '-'}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
+let displayPokemonInfo = (pokemonData) => {
+    const pokemonInfoContainer = document.getElementById('pokemonInfo');
+    pokemonInfoContainer.innerHTML = '';
+
+    // Crear tabla para mostrar la información
+    const table = document.createElement('table');
+    table.classList.add('pokemon-table');
+
+    // Agregar filas a la tabla
+    addTableRow(table, 'Nombre', pokemonData.name);
+    addTableRow(table, 'Altura', pokemonData.height);
+    addTableRow(table, 'Peso', pokemonData.weight);
+    addTableRow(table, 'Habilidades', getPokemonAbilities(pokemonData.abilities));
+
+    // Agregar la tabla al contenedor
+    pokemonInfoContainer.appendChild(table);
+
+    // Mostrar la imagen del Pokémon
+    const pokemonImageContainer = document.getElementById('pokemonImage');
+    pokemonImageContainer.innerHTML = '';
+    const image = document.createElement('img');
+    image.src = pokemonData.sprites.front_default;
+    image.alt = pokemonData.name;
+    pokemonImageContainer.appendChild(image);
+}
+
+let addTableRow = (table, label, value) => {
+    const row = table.insertRow();
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    cell1.textContent = label;
+    cell2.textContent = value;
+}
+
+let getPokemonAbilities = (abilities) => {
+    return abilities.map(ability => ability.ability.name).join(', ');
 }

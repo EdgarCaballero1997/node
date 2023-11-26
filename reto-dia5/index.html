@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Search</title>
+    <title>Pokemon API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <form id="search-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-        <button type="submit">Search</button>
-    </form>
-    <div id="result"></div>
+    <div class="contenedor-general">
+        <div class="contenedor">
+            <h1>Pokemon API</h1>
+            <form id="pokemonForm">
+                <img id="pokemon-image" src="" alt="Pokemon Image">
+                <label for="pokemonName">Nombre del Pokémon:</label>
+                <input type="text" id="pokemonName" required>
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </form>
+            <div id="pokemonInfo"></div>
+        </div>
+    </div>
     <script src="funcionalidad.js"></script>
 </body>
 </html>
