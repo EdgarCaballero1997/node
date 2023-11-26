@@ -6,11 +6,9 @@ document.getElementById('pokemonForm').addEventListener('submit', function (even
 });
 
 let getPokemonData = (pokemonName) => {
-    // Hacer una solicitud a la API de Pokemon
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
         .then(response => response.json())
         .then(data => {
-            // Mostrar la información del Pokémon en la página
             displayPokemonInfo(data);
         })
         .catch(error => {
@@ -22,20 +20,16 @@ let displayPokemonInfo = (pokemonData) => {
     const pokemonInfoContainer = document.getElementById('pokemonInfo');
     pokemonInfoContainer.innerHTML = '';
 
-    // Crear tabla para mostrar la información
     const table = document.createElement('table');
     table.classList.add('pokemon-table');
 
-    // Agregar filas a la tabla
     addTableRow(table, 'Nombre', pokemonData.name);
     addTableRow(table, 'Altura', pokemonData.height);
     addTableRow(table, 'Peso', pokemonData.weight);
     addTableRow(table, 'Habilidades', getPokemonAbilities(pokemonData.abilities));
 
-    // Agregar la tabla al contenedor
     pokemonInfoContainer.appendChild(table);
 
-    // Mostrar la imagen del Pokémon
     const pokemonImageContainer = document.getElementById('pokemonImage');
     pokemonImageContainer.innerHTML = '';
     const image = document.createElement('img');
