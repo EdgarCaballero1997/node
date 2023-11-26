@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#search-form {
+    margin-bottom: 20px;
+}
+
+#result {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
